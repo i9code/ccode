@@ -1,0 +1,121 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="资源文件">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="src">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="include">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="src\stl">
+      <UniqueIdentifier>{475b9490-f637-4c98-a3a4-d0f95eb68b32}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\keywords">
+      <UniqueIdentifier>{a47ef75d-db0e-48bd-bc4f-0be54b8c2d43}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\thread">
+      <UniqueIdentifier>{b94c7f73-2df4-4b20-afe8-b9d27f7c995d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\boostl">
+      <UniqueIdentifier>{006e2ffd-a03d-4b01-bc0a-359827b146a1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\boostl\base">
+      <UniqueIdentifier>{ae939f96-4ae5-4693-baee-1f55a624d72f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\algorithm">
+      <UniqueIdentifier>{a0ff9aca-49d9-4b43-a26a-16ca9acd4cd6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\vulkanl">
+      <UniqueIdentifier>{c6035b69-158b-4219-97dc-7888aafdb6d0}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\boostl\base\boost_base_01_time.cpp">
+      <Filter>src\boostl\base</Filter>
+    </ClCompile>
+    <ClCompile Include="src\keywords\cc_01_key.cpp">
+      <Filter>src\keywords</Filter>
+    </ClCompile>
+    <ClCompile Include="src\keywords\cc_02_class.cpp">
+      <Filter>src\keywords</Filter>
+    </ClCompile>
+    <ClCompile Include="src\keywords\cc_03_class.cpp">
+      <Filter>src\keywords</Filter>
+    </ClCompile>
+    <ClCompile Include="src\keywords\cc_04_lvalue_rvalue.cpp">
+      <Filter>src\keywords</Filter>
+    </ClCompile>
+    <ClCompile Include="src\keywords\cc_05_destruction_no_exception_construction_exception.cpp">
+      <Filter>src\keywords</Filter>
+    </ClCompile>
+    <ClCompile Include="src\keywords\cc_06_oo.cpp">
+      <Filter>src\keywords</Filter>
+    </ClCompile>
+    <ClCompile Include="src\keywords\cc_07_smart_ptr.cpp">
+      <Filter>src\keywords</Filter>
+    </ClCompile>
+    <ClCompile Include="src\algorithm\algo_01_list_circle.cpp">
+      <Filter>src\algorithm</Filter>
+    </ClCompile>
+    <ClCompile Include="src\algorithm\algo_02_max_huiwen.cpp">
+      <Filter>src\algorithm</Filter>
+    </ClCompile>
+    <ClCompile Include="src\stl\stl_01_array.cpp">
+      <Filter>src\stl</Filter>
+    </ClCompile>
+    <ClCompile Include="src\stl\stl_02_vector.cpp">
+      <Filter>src\stl</Filter>
+    </ClCompile>
+    <ClCompile Include="src\stl\stl_03_deque.cpp">
+      <Filter>src\stl</Filter>
+    </ClCompile>
+    <ClCompile Include="src\stl\stl_04_list.cpp">
+      <Filter>src\stl</Filter>
+    </ClCompile>
+    <ClCompile Include="src\stl\stl_05_forward_list.cpp">
+      <Filter>src\stl</Filter>
+    </ClCompile>
+    <ClCompile Include="src\stl\stl_06_set.cpp">
+      <Filter>src\stl</Filter>
+    </ClCompile>
+    <ClCompile Include="src\stl\stl_06_set_compare.cpp">
+      <Filter>src\stl</Filter>
+    </ClCompile>
+    <ClCompile Include="src\stl\stl_07_map.cpp">
+      <Filter>src\stl</Filter>
+    </ClCompile>
+    <ClCompile Include="src\stl\stl_08_konwledge.cpp">
+      <Filter>src\stl</Filter>
+    </ClCompile>
+    <ClCompile Include="src\stl\thread_00_base.cpp">
+      <Filter>src\stl</Filter>
+    </ClCompile>
+    <ClCompile Include="src\thread\thread_01_helloworld.cpp">
+      <Filter>src\thread</Filter>
+    </ClCompile>
+    <ClCompile Include="src\thread\thread_01_init.cpp">
+      <Filter>src\thread</Filter>
+    </ClCompile>
+    <ClCompile Include="src\thread\thread_02_caculate.cpp">
+      <Filter>src\thread</Filter>
+    </ClCompile>
+    <ClCompile Include="src\thread\thread_03_hardware.cpp">
+      <Filter>src\thread</Filter>
+    </ClCompile>
+    <ClCompile Include="src\thread\thread_04_join_detach.cpp">
+      <Filter>src\thread</Filter>
+    </ClCompile>
+    <ClCompile Include="src\thread\thread_05_cond_var.cpp">
+      <Filter>src\thread</Filter>
+    </ClCompile>
+    <ClCompile Include="src\thread\thread_06_single.cpp">
+      <Filter>src\thread</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>
