@@ -36,7 +36,8 @@ void HelloTriangleApplication::createLogicalDevice() {
 
     createInfo.pEnabledFeatures = &deviceFeatures;
 
-    createInfo.enabledExtensionCount = 0;
+	createInfo.enabledExtensionCount = static_cast<uint32_t>(deviceExtensions.size());
+	createInfo.ppEnabledExtensionNames = deviceExtensions.data();
 
     // 允许为instance开启validation layers，现在我们将为设备开启validation layers，而不需要为设备指定任何扩展。
     if (enableValidationLayers) {

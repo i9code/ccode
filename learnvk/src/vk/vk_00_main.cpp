@@ -29,9 +29,10 @@ void HelloTriangleApplication::initVulkan() {
 	pickPhysicalDevice();
 
 	createLogicalDevice();
-	
 
+	createSwapChain();
 }
+	
 
 void HelloTriangleApplication::cleanup() {
 
