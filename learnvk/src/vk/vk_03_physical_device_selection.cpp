@@ -74,7 +74,7 @@ QueueFamilyIndices HelloTriangleApplication::findQueueFamilies(VkPhysicalDevice 
 		VkBool32 presentSupport = false;
 		vkGetPhysicalDeviceSurfaceSupportKHR(device, i, surface, &presentSupport);
 		if (queueFamily.queueCount > 0 && presentSupport) {
-			indices.graphicsFamily = i;
+			indices.presentFamily = i;
 		}
 
 		if (indices.isComplete()) {

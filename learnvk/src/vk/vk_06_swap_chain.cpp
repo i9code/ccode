@@ -211,3 +211,25 @@ VkExtent2D HelloTriangleApplication::chooseSwapExtent(const VkSurfaceCapabilitie
 		return actualExtent;
 	}
 }
+
+//void HelloTriangleApplication::cleanupSwapChain() {
+//	vkDestroyImageView(device, depthImageView, nullptr);
+//	vkDestroyImage(device, depthImage, nullptr);
+//	vkFreeMemory(device, depthImageMemory, nullptr);
+//
+//	for (size_t i = 0; i < swapChainFramebuffers.size(); i++) {
+//		vkDestroyFramebuffer(device, swapChainFramebuffers[i], nullptr);
+//	}
+//
+//	vkFreeCommandBuffers(device, commandPool, static_cast<uint32_t>(commandBuffers.size()), commandBuffers.data());
+//
+//	vkDestroyPipeline(device, graphicsPipeline, nullptr);
+//	vkDestroyPipelineLayout(device, pipelineLayout, nullptr);
+//	vkDestroyRenderPass(device, renderPass, nullptr);
+//
+//	for (size_t i = 0; i < swapChainImageViews.size(); i++) {
+//		vkDestroyImageView(device, swapChainImageViews[i], nullptr);
+//	}
+//
+//	vkDestroySwapchainKHR(device, swapChain, nullptr);
+//}

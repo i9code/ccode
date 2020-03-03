@@ -28,3 +28,230 @@ fragment shaderÓ¦ÓÃÓÚÃ¿¸öÆ¬Ôª£¬È·¶¨Ã¿¸öÖ¡»º³åÇøÖĞĞ´ÈëµÄÆ¬ÔªÊı¾İµÄÑÕÉ«ºÍÉî¶ÈÖµ¡£Æ
 VulkanÖĞµÄÍ¼ĞÎ¹ÜÏß¼¸ºõ²»¿É¸Ä±ä£¬Òò´ËÈç¹ûĞèÒª¸ü¸Ä×ÅÉ«Æ÷£¬°ó¶¨µ½²»Í¬µÄÖ¡»º³åÇø»òÕß¸ü¸Ä»ìºÏº¯Êı£¬Ôò±ØĞë´ÓÍ·´´½¨¹ÜÏß¡£
 È±µãÊÇ±ØĞë´´½¨Ò»Ğ©¹ÜÏß£¬ÕâĞ©¹ÜÏß´ú±íÔÚäÖÈ¾²Ù×÷ÖĞÊ¹ÓÃµÄ²»Í¬µÄ×éºÏ×´Ì¬¡£µ«ÊÇÓÉÓÚËùÓĞ¹ÜÏßµÄ²Ù×÷¶¼ÊÇÌáÇ°ÖªµÀµÄ£¬ËùÒÔ¿ÉÒÔÍ¨¹ıÇı¶¯³ÌĞò¸üºÃµÄÓÅ»¯Ëü¡£
 */
+#include "vk_00_main.h"
+void HelloTriangleApplication::createGraphicsPipeline() {
+	auto vertShaderCode = readFile("src/vk/shaders/vert.spv");
+	auto fragShaderCode = readFile("src/vk/shaders/frag.spv");
+
+	/*
+	shader module¶ÔÏó½ö½öÔÚäÖÈ¾¹ÜÏß´¦Àí¹ı³ÌÖĞĞèÒª£¬ËùÒÔÎÒÃÇ»áÔÚcreateGraphicsPipelineº¯ÊıÖĞ¶¨Òå±¾µØ±äÁ¿±£´æËüÃÇ£¬
+	¶ø²»ÊÇ¶¨ÒåÀà³ÉÔ±±äÁ¿³ÖÓĞËüÃÇµÄ¾ä±ú:
+	*/ 
+	VkShaderModule vertShaderModule = createShaderModule(vertShaderCode);
+	VkShaderModule fragShaderModule = createShaderModule(fragShaderCode);
+
+
+	//VkShaderModule¶ÔÏóÖ»ÊÇ×Ö½ÚÂë»º³åÇøµÄÒ»¸ö°ü×°ÈİÆ÷¡£×ÅÉ«Æ÷²¢Ã»ÓĞ±Ë´ËÁ´½Ó£¬ÉõÖÁÃ»ÓĞ¸ø³öÄ¿µÄ¡£
+	//Í¨¹ıVkPipelineShaderStageCreateInfo½á¹¹½«×ÅÉ«Æ÷Ä£¿é·ÖÅäµ½¹ÜÏßÖĞµÄ¶¥µã»òÕßÆ¬¶Î×ÅÉ«Æ÷½×¶Î¡£VkPipelineShaderStageCreateInfo½á¹¹ÌåÊÇÊµ¼Ê¹ÜÏß´´½¨¹ı³ÌµÄÒ»²¿·Ö¡£
+
+	//ÎÒÃÇÊ×ÏÈÔÚcreateGraphicsPipelineº¯ÊıÖĞÌîĞ´¶¥µã×ÅÉ«Æ÷½á¹¹Ìå¡£
+	VkPipelineShaderStageCreateInfo vertShaderStageInfo = {};
+	vertShaderStageInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO;
+	vertShaderStageInfo.stage = VK_SHADER_STAGE_VERTEX_BIT;  // µÚÒ»¸öĞèÒª¸æÖªVulkan½«ÔÚÄÄ¸öÁ÷Ë®Ïß½×¶ÎÊ¹ÓÃ×ÅÉ«Æ÷
+	// ½ÓÏÂÀ´µÄÁ½¸ö³ÉÔ±Ö¸¶¨°üº¬´úÂëµÄ×ÅÉ«Æ÷Ä£¿éºÍµ÷ÓÃµÄÖ÷º¯Êı¡£ÕâÒâÎ¶×Å¿ÉÒÔ½«¶à¸öÆ¬¶Î×ÅÉ«Æ÷×éºÏµ½µ¥¸ö×ÅÉ«Æ÷Ä£¿éÖĞ£¬
+	//²¢Ê¹ÓÃ²»Í¬µÄÈë¿ÚµãÀ´Çø·ÖËüÃÇµÄĞĞÎª¡£ÔÚÕâÖÖÇé¿öÏÂ£¬ÎÒÃÇ¼á³ÖÊ¹ÓÃ±ê×¼mainº¯Êı×÷ÎªÈë¿Ú¡£
+	vertShaderStageInfo.module = vertShaderModule;
+	vertShaderStageInfo.pName = "main";
+
+	/*
+	»¹ÓĞÒ»¸ö¿ÉÑ¡³ÉÔ±£¬pSpecializationInfo,ÔÚÕâÀïÎÒÃÇ²»»áÊ¹ÓÃËü£¬µ«ÊÇÖµµÃÌÖÂÛÒ»ÏÂ¡£ËüÔÊĞíÎª×ÅÉ«Æ÷Ö¸¶¨³£Á¿Öµ¡£
+	Ê¹ÓÃµ¥¸ö×ÅÉ«Æ÷Ä£¿é£¬Í¨¹ıÎªÆäÖĞÊ¹ÓÃ²»Í¬µÄ³£Á¿Öµ£¬¿ÉÒÔÔÚÁ÷Ë®Ïß´´½¨Ê±¶ÔĞĞÎª½øĞĞÅäÖÃ¡£
+	Õâ±ÈÔÚäÖÈ¾Ê±Ê¹ÓÃ±äÁ¿ÅäÖÃ×ÅÉ«Æ÷¸üÓĞĞ§ÂÊ£¬ÒòÎª±àÒëÆ÷¿ÉÒÔ½øĞĞÓÅ»¯£¬ÀıÈçÏû³ıifÖµÅĞ¶ÏµÄÓï¾ä¡£
+	Èç¹ûÃ»ÓĞÕâÑùµÄ³£Á¿£¬¿ÉÒÔ½«³ÉÔ±ÉèÖÃÎªnullptr£¬ÎÒÃÇµÄstruct½á¹¹Ìå³õÊ¼»¯×Ô¶¯½øĞĞ¡£
+	*/
+	// ĞŞ¸Ä½á¹¹ÌåÂú×ãÆ¬¶Î×ÅÉ«Æ÷µÄĞèÒª:
+	VkPipelineShaderStageCreateInfo fragShaderStageInfo = {};
+	fragShaderStageInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO;
+	fragShaderStageInfo.stage = VK_SHADER_STAGE_FRAGMENT_BIT;
+	fragShaderStageInfo.module = fragShaderModule;
+	fragShaderStageInfo.pName = "main";
+
+	// Íê³ÉÁ½¸ö½á¹¹ÌåµÄ´´½¨£¬²¢Í¨¹ıÊı×é±£´æ£¬Õâ²¿·ÖÒıÓÃ½«»áÔÚÊµ¼ÊµÄ¹ÜÏß´´½¨¿ªÊ¼¡£
+	VkPipelineShaderStageCreateInfo shaderStages[] = { vertShaderStageInfo, fragShaderStageInfo };
+
+	//¶¥µãÊäÈë
+	/*
+	VkPipelineVertexInputStateCreateInfo½á¹¹ÌåÃèÊöÁË¶¥µãÊı¾İµÄ¸ñÊ½£¬¸Ã½á¹¹ÌåÊı¾İ´«µİµ½vertex shaderÖĞ¡£ËüÒÔÁ½ÖÖ·½Ê½½øĞĞÃèÊö:
+
+	Bindings:¸ù¾İÊı¾İµÄ¼äÏ¶£¬È·¶¨Êı¾İÊÇÃ¿¸ö¶¥µã»òÕßÊÇÃ¿¸öinstance(instancing)
+	Attribute ÃèÊö:ÃèÊö½«Òª½øĞĞ°ó¶¨¼°¼ÓÔØÊôĞÔµÄ¶¥µã×ÅÉ«Æ÷ÖĞµÄÏà¹ØÊôĞÔÀàĞÍ¡£
+	ÒòÎªÎÒÃÇ½«¶¥µãÊı¾İÓ²±àÂëµ½vertex shaderÖĞ£¬ËùÒÔÎÒÃÇ½«ÒªÌî³äµÄ½á¹¹ÌåÃ»ÓĞ¶¥µãÊı¾İÈ¥¼ÓÔØ¡£ÎÒÃÇ½«»áÔÚvertex bufferÕÂ½ÚÖĞ»ØÀ´²Ù×÷¡£
+	*/
+	VkPipelineVertexInputStateCreateInfo vertexInputInfo = {};
+	vertexInputInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_VERTEX_INPUT_STATE_CREATE_INFO;
+
+	auto bindingDescription = Vertex::getBindingDescription();
+	auto attributeDescriptions = Vertex::getAttributeDescriptions();
+
+	vertexInputInfo.vertexBindingDescriptionCount = 1;
+	vertexInputInfo.vertexAttributeDescriptionCount = static_cast<uint32_t>(attributeDescriptions.size());
+	vertexInputInfo.pVertexBindingDescriptions = &bindingDescription;
+	vertexInputInfo.pVertexAttributeDescriptions = attributeDescriptions.data();
+
+	// ÊäÈë×é¼ş
+	/*
+	VkPipelineInputAssemblyStateCreateInfo½á¹¹ÌåÃèÊöÁ½¼şÊÂÇé:¶¥µãÊı¾İÒÔÊ²Ã´ÀàĞÍµÄ¼¸ºÎÍ¼ÔªÍØÆË½øĞĞ»æÖÆ¼°ÊÇ·ñÆôÓÃ¶¥µãË÷ÖØĞÂ¿ªÊ¼Í¼Ôª¡£Í¼ÔªµÄÍØÆË½á¹¹ÀàĞÍtopologyÃ¶¾ÙÖµÈçÏÂ:
+
+	VK_PRIMITIVE_TOPOLOGY_POINT_LIST: ¶¥µãµ½µã
+	VK_PRIMITIVE_TOPOLOGY_LINE_LIST: Á½µã³ÉÏß£¬¶¥µã²»¹²ÓÃ
+	VK_PRIMITIVE_TOPOLOGY_LINE_STRIP: Á½µã³ÉÏß£¬Ã¿¸öÏß¶ÎµÄ½áÊø¶¥µã×÷ÎªÏÂÒ»¸öÏß¶ÎµÄ¿ªÊ¼¶¥µã
+	VK_PRIMITIVE_TOPOLOGY_TRIANGLE_LIST: Èıµã³ÉÃæ£¬¶¥µã²»¹²ÓÃ
+	VK_PRIMITIVE_TOPOLOGY_TRIANGLE_STRIP: Ã¿¸öµ«½ÌÑµµÄµÚ¶ş¸ö¡¢µÚÈı¸ö¶¥µã¶¼×÷ÎªÏÂÒ»¸öÈı½ÇĞÎµÄÇ°Á½¸ö¶¥µã
+	Õı³£Çé¿öÏÂ£¬¶¥µãÊı¾İ°´ÕÕ»º³åÇøÖĞµÄĞòÁĞ×÷ÎªË÷Òı£¬µ«ÊÇÒ²¿ÉÒÔÍ¨¹ıelement buffer»º³åÇø×ÔĞĞÖ¸¶¨¶¥µãÊı¾İµÄË÷Òı¡£Í¨¹ı¸´ÓÃ¶¥µãÊı¾İÌáÉıĞÔÄÜ¡£Èç¹ûÉèÖÃprimitiveRestartEnable³ÉÔ±ÎªVK_TRUE£¬¿ÉÒÔÍ¨¹ı0xFFFF»òÕß0xFFFFFFFF×÷ÎªÌØÊâË÷ÒıÀ´·Ö½âÏßºÍÈı½ÇĞÎÔÚ_STRIPÄ£Ê½ÏÂµÄÍ¼ÔªÍØÆË½á¹¹¡£
+
+	Í¨¹ı±¾½Ì³Ì»æÖÆÈı½ÇĞÎ£¬ËùÒÔÎÒÃÇ¼á³Ö°´ÕÕÈçÏÂ¸ñÊ½Ìî³äÊı¾İ½á¹¹:
+	*/
+	VkPipelineInputAssemblyStateCreateInfo inputAssembly = {};
+	inputAssembly.sType = VK_STRUCTURE_TYPE_PIPELINE_INPUT_ASSEMBLY_STATE_CREATE_INFO;
+	inputAssembly.topology = VK_PRIMITIVE_TOPOLOGY_TRIANGLE_LIST;
+	inputAssembly.primitiveRestartEnable = VK_FALSE;
+	
+	/*
+	ÊÓ´°ºÍ²Ã¼ô
+	ViewportÓÃÓÚÃèÊöframebuffer×÷ÎªäÖÈ¾Êä³ö½á¹ûÄ¿±êÇøÓò¡£ËüµÄÊıÖµÔÚ±¾½Ì³ÌÖĞ×ÜÊÇÉèÖÃÔÚ(0, 0)ºÍ(width, height)
+	*/
+	VkViewport viewport = {};
+	viewport.x = 0.0f;
+	viewport.y = 0.0f;
+	viewport.width = (float)swapChainExtent.width;
+	viewport.height = (float)swapChainExtent.height;
+	viewport.minDepth = 0.0f;
+	viewport.maxDepth = 1.0f;
+	/*
+	¼ÇµÃ½»»»Á´ºÍËüµÄimagesÍ¼Ïñ´óĞ¡WIDTHºÍHEIGHT»á¸ù¾İ²»Í¬µÄ´°Ìå¶ø²»Í¬¡£½»»»Á´Í¼Ïñ½«»áÔÚÖ¡»º³åÇøframebuffersÊ¹ÓÃ£¬ËùÒÔÎÒÃÇÓ¦¸Ã¼á³ÖËüÃÇµÄ´óĞ¡¡£
+
+	minDepthºÍmaxDepthÊıÖµÖ¸¶¨framebufferÖĞÉî¶ÈµÄ·¶Î§¡£ÕâĞ©ÊıÖµ±ØĞëÊÕÁ²ÔÚ[0.0f, 1.0f]Çø¼ä³å£¬µ«ÊÇminDepth¿ÉÄÜ»á´óÓÚmaxDepth¡£
+	Èç¹ûÄã²»×öÈÎºÎÖ¸¶¨£¬½¨ÒéÊ¹ÓÃ±ê×¼µÄÊıÖµ0.0fºÍ1.0f¡£
+
+	viewports¶¨ÒåÁËimageÍ¼Ïñµ½framebufferÖ¡»º³åÇøµÄ×ª»»¹ØÏµ£¬²Ã¼ô¾ØĞÎ¶¨ÒåÁËÄÄĞ©ÇøÓòµÄÏñËØ±»´æ´¢¡£
+	ÈÎºÎÔÚ²Ã¼ô¾ŞĞÍÍâµÄÏñËØ¶¼»áÔÚ¹âÕ¤»¯½×¶Î¶ªÆú¡£ËüÃÇµÄ¹¦ÄÜ¸üÏñ¹ıÂËÆ÷¶ø²»ÊÇ¶¨Òå×ª»»¹ØÏµ¡£
+	Õâ¸öÇø±ğÈçÏÂÍ¼ËùÊ¾¡£ĞèÒª×¢ÒâµÄÊÇ£¬¶ÔÓÚÍ¼Ïñ±Èviewport³ß´ç´óµÄÇéĞÎ£¬×ó²àµÄ²Ã¼ô¾ØĞÎÖ»ÊÇÖÚ¶à¿ÉÄÜµÄÒ»¸ö±íÏÖ¡£
+	*/
+
+	//ÖĞÎÒÃÇĞèÒª½«Í¼Ïñ»æÖÆµ½ÍêÕûµÄÖ¡»º³åÇøframebufferÖĞ£¬ËùÒÔÎÒÃÇ¶¨Òå²Ã¼ô¾ØĞÎ¸²¸Çµ½ÕûÌåÍ¼Ïñ:
+	VkRect2D scissor = {};
+	scissor.offset = { 0, 0 };
+	scissor.extent = swapChainExtent;
+
+	//viewportºÍ²Ã¼ô¾ØĞÎĞèÒª½èÖúVkPipelineViewportStateCreateInfo½á¹¹ÌåÁªºÏÊ¹ÓÃ¡£¿ÉÒÔÊ¹ÓÃ¶àviewportsºÍ²Ã¼ô¾ØĞÎÔÚÒ»Ğ©Í¼ĞÎ¿¨£¬Í¨¹ıÊı×éÒıÓÃ¡£
+	//Ê¹ÓÃ¸ÃÌØĞÔĞèÒªGPUÖ§³Ö¸Ã¹¦ÄÜ£¬¾ßÌå¿´Âß¼­Éè±¸µÄ´´½¨¡£
+	VkPipelineViewportStateCreateInfo viewportState = {};
+	viewportState.sType = VK_STRUCTURE_TYPE_PIPELINE_VIEWPORT_STATE_CREATE_INFO;
+	viewportState.viewportCount = 1;
+	viewportState.pViewports = &viewport;
+	viewportState.scissorCount = 1;
+	viewportState.pScissors = &scissor;
+
+	// ¹âÕ¤»¯
+	/*
+	¹âÕ¤»¯Í¨¹ı¶¥µã×ÅÉ«Æ÷¼°¾ßÌåµÄ¼¸ºÎËã·¨½«¶¥µã½øĞĞËÜĞÎ£¬²¢½«Í¼ĞÎ´«µİµ½Æ¬¶Î×ÅÉ«Æ÷½øĞĞ×ÅÉ«¹¤×÷¡£
+	ËüÒ²»áÖ´ĞĞÉî¶È²âÊÔdepth testing¡¢Ãæ²ÃÇĞface cullingºÍ²Ã¼ô²âÊÔ£¬Ëü¿ÉÒÔ¶ÔÊä³öµÄÆ¬Ôª½øĞĞÅäÖÃ£¬¾ö¶¨ÊÇ·ñÊä³öÕû¸öÍ¼ÔªÍØÆË»òÕßÊÇ±ß¿ò(Ïß¿òäÖÈ¾)¡£
+	ËùÓĞµÄÅäÖÃÍ¨¹ıVkPipelineRasterizationStateCreateInfo½á¹¹Ìå¶¨Òå¡£
+	*/
+	VkPipelineRasterizationStateCreateInfo rasterizer = {};
+	rasterizer.sType = VK_STRUCTURE_TYPE_PIPELINE_RASTERIZATION_STATE_CREATE_INFO;
+	rasterizer.depthClampEnable = VK_FALSE; // ËüµÄdepthClampEnableÉèÖÃÎªVK_TRUE£¬³¬¹ıÔ¶½ü²Ã¼ôÃæµÄÆ¬Ôª»á½øĞĞÊÕÁ²£¬¶ø²»ÊÇ¶ªÆúËüÃÇ¡£ËüÔÚÌØÊâµÄÇé¿öÏÂ±È½ÏÓĞÓÃ£¬ÏñÒõÓ°ÌùÍ¼¡£Ê¹ÓÃ¸Ã¹¦ÄÜĞèÒªµÃµ½GPUµÄÖ§³Ö¡£
+
+	rasterizer.rasterizerDiscardEnable = VK_FALSE;  //Èç¹ûrasterizerDiscardEnableÉèÖÃÎªVK_TRUE£¬ÄÇÃ´¼¸ºÎÍ¼ÔªÓÀÔ¶²»»á´«µİµ½¹âÕ¤»¯½×¶Î¡£ÕâÊÇ»ù±¾µÄ½ûÖ¹ÈÎºÎÊä³öµ½framebufferÖ¡»º³åÇøµÄ·½·¨¡£
+	
+	/*
+	polygonMode¾ö¶¨¼¸ºÎ²úÉúÍ¼Æ¬µÄÄÚÈİ¡£ÏÂÁĞÓĞĞ§Ä£Ê½:
+
+	VK_POLYGON_MODE_FILL: ¶à±ßĞÎÇøÓòÌî³ä
+	VK_POLYGON_MODE_LINE: ¶à±ßĞÎ±ßÔµÏß¿ò»æÖÆ
+	VK_POLYGON_MODE_POINT: ¶à±ßĞÎ¶¥µã×÷ÎªÃèµã»æÖÆ
+	Ê¹ÓÃÈÎºÎÄ£Ê½Ìî³äĞèÒª¿ªÆôGPU¹¦ÄÜ¡£
+	*/
+	rasterizer.polygonMode = VK_POLYGON_MODE_FILL;
+	
+	rasterizer.lineWidth = 1.0f;/// lineWidth³ÉÔ±ÊÇÖ±½ÓÌî³äµÄ£¬¸ù¾İÆ¬ÔªµÄÊıÁ¿ÃèÊöÏßµÄ¿í¶È¡£×î´óµÄÏß¿íÖ§³ÖÈ¡¾öÓÚÓ²¼ş£¬ÈÎºÎ´óÓÚ1.0µÄÏß¿íĞèÒª¿ªÆôGPUµÄwideLinesÌØĞÔÖ§³Ö¡£
+
+	rasterizer.cullMode = VK_CULL_MODE_BACK_BIT; // cullMode±äÁ¿ÓÃÓÚ¾ö¶¨Ãæ²Ã¼ôµÄÀàĞÍ·½Ê½¡£¿ÉÒÔ½ûÖ¹culling£¬²Ã¼ôfront faces£¬cull back faces »òÕßÈ«²¿
+	rasterizer.frontFace = VK_FRONT_FACE_COUNTER_CLOCKWISE; // frontFaceÓÃÓÚÃèÊö×÷Îªfront-facingÃæµÄ¶¥µãµÄË³Ğò£¬¿ÉÒÔÊÇË³Ê±ÕëÒ²¿ÉÒÔÊÇÄæÊ±Õë¡£
+	rasterizer.depthBiasEnable = VK_FALSE; // ¹âÕ¤»¯¿ÉÒÔÍ¨¹ıÌí¼Ó³£Á¿»òÕß»ùÓÚÆ¬ÔªµÄĞ±ÂÊÀ´¸ü¸ÄÉî¶ÈÖµ¡£Ò»Ğ©Ê±ºò¶ÔÓÚÒõÓ°ÌùÍ¼ÊÇÓĞÓÃµÄ£¬µ«ÊÇÎÒÃÇ²»»áÔÚÕÂ½ÚÖĞÊ¹ÓÃ£¬ÉèÖÃdepthBiasEnableÎªVK_FALSE¡£
+
+	// ÖØ²ÉÑù
+	/*
+	VkPipelineMultisampleStateCreateInfo½á¹¹ÌåÓÃÓÚÅäÖÃ¶àÖØ²ÉÑù¡£ËùÎ½¶àÖØ²ÉÑùÊÇ¿¹¾â³İanti-aliasingµÄÒ»ÖÖÊµÏÖ¡£ËüÍ¨¹ı×éºÏ¶à¸ö¶à±ßĞÎµÄÆ¬¶Î×ÅÉ«Æ÷½á¹û£¬¹âÕ¤»¯µ½Í¬Ò»¸öÏñËØ¡£
+	ÕâÖ÷Òª·¢ÉúÔÚ±ßÔµ£¬ÕâÒ²ÊÇ×îÒıÈË×¢Ä¿µÄ¾â³İ³öÏÖµÄµØ·½¡£Èç¹ûÖ»ÓĞÒ»¸ö¶à±ßĞÎÓ³Éäµ½ÏñËØÊÇ²»ĞèÒª¶à´ÎÔËĞĞÆ¬¶Î×ÅÉ«Æ÷½øĞĞ²ÉÑùµÄ£¬Ïà±È¸ß·Ö±æÂÊÀ´Ëµ£¬Ëü»á»¨·Ñ½ÏµÍµÄ¿ªÏú¡£¿ªÆô¸Ã¹¦ÄÜĞèÒªGPUÖ§³Ö
+	*/
+	VkPipelineMultisampleStateCreateInfo multisampling = {};
+	multisampling.sType = VK_STRUCTURE_TYPE_PIPELINE_MULTISAMPLE_STATE_CREATE_INFO;
+	multisampling.sampleShadingEnable = VK_FALSE;
+	multisampling.rasterizationSamples = VK_SAMPLE_COUNT_1_BIT;
+
+	/*
+	Éî¶ÈºÍÄ£°å²âÊÔ
+	Èç¹ûÊ¹ÓÃdepth »òÕß stencil»º³åÇø£¬ĞèÒªÊ¹ÓÃVkPipelineDepthStencilStateCreateInfoÅäÖÃ¡£ÎÒÃÇÏÖÔÚ²»ĞèÒªÊ¹ÓÃ£¬ËùÒÔ¼òµ¥µÄ´«µİnullptr£¬¹ØÓÚÕâ²¿·Ö»á×¨ÃÅÔÚÉî¶È»º³åÇøÕÂ½ÚÖĞÌÖÂÛ¡£
+	*/
+	VkPipelineDepthStencilStateCreateInfo depthStencil = {};
+	depthStencil.sType = VK_STRUCTURE_TYPE_PIPELINE_DEPTH_STENCIL_STATE_CREATE_INFO;
+	depthStencil.depthTestEnable = VK_TRUE;
+	depthStencil.depthWriteEnable = VK_TRUE;
+	depthStencil.depthCompareOp = VK_COMPARE_OP_LESS;
+	depthStencil.depthBoundsTestEnable = VK_FALSE;
+	depthStencil.stencilTestEnable = VK_FALSE;
+
+	/*
+	ÑÕÉ«»ìºÏ
+	Æ¬¶Î×ÅÉ«Æ÷Êä³ö¾ßÌåµÄÑÕÉ«£¬ËüĞèÒªÓëÖ¡»º³åÇøframebufferÖĞÒÑ¾­´æÔÚµÄÑÕÉ«½øĞĞ»ìºÏ¡£Õâ¸ö×ª»»µÄ¹ı³Ì³ÉÎª»ìÉ«£¬ËüÓĞÁ½ÖÖ·½Ê½:
+
+	½«oldºÍnewÑÕÉ«½øĞĞ»ìºÏ²ú³öÒ»¸ö×îÖÕµÄÑÕÉ«
+	Ê¹ÓÃ°´Î»²Ù×÷»ìºÏoldºÍnewÑÕÉ«µÄÖµ
+	ÓĞÁ½¸ö½á¹¹ÌåÓÃÓÚÅäÖÃÑÕÉ«»ìºÏ¡£µÚÒ»¸ö½á¹¹ÌåVkPipelineColorBlendAttachmentState°üÀ¨ÁËÃ¿¸ö¸½¼Óµ½Ö¡»º³åÇøµÄÅäÖÃ¡£µÚ¶ş¸ö½á¹¹ÌåVkPipelineColorBlendStateCreateInfo°üº¬ÁËÈ«¾Ö»ìÉ«µÄÉèÖÃ¡£ÔÚÎÒÃÇµÄÀı×ÓÖĞ½öÊ¹ÓÃµÚÒ»ÖÖ·½Ê½:
+	*/
+	VkPipelineColorBlendAttachmentState colorBlendAttachment = {};
+	colorBlendAttachment.colorWriteMask = VK_COLOR_COMPONENT_R_BIT | VK_COLOR_COMPONENT_G_BIT | VK_COLOR_COMPONENT_B_BIT | VK_COLOR_COMPONENT_A_BIT;
+	colorBlendAttachment.blendEnable = VK_FALSE;
+
+	VkPipelineColorBlendStateCreateInfo colorBlending = {};
+	colorBlending.sType = VK_STRUCTURE_TYPE_PIPELINE_COLOR_BLEND_STATE_CREATE_INFO;
+	colorBlending.logicOpEnable = VK_FALSE;
+	colorBlending.logicOp = VK_LOGIC_OP_COPY;
+	colorBlending.attachmentCount = 1;
+	colorBlending.pAttachments = &colorBlendAttachment;
+	colorBlending.blendConstants[0] = 0.0f;
+	colorBlending.blendConstants[1] = 0.0f;
+	colorBlending.blendConstants[2] = 0.0f;
+	colorBlending.blendConstants[3] = 0.0f;
+
+
+
+	/*¿ÉÒÔÔÚ×ÅÉ«Æ÷ÖĞÊ¹ÓÃuniform£¬ËüÊÇÀàËÆÓë¶¯Ì¬×´Ì¬±äÁ¿µÄÈ«¾Ö±äÁ¿£¬¿ÉÒÔÔÚ»æ»­Ê±ĞŞ¸Ä£¬¿ÉÒÔ¸ü¸Ä×ÅÉ«Æ÷µÄĞĞÎª¶øÎŞĞèÖØĞÂ´´½¨ËüÃÇ¡£ËüÃÇÍ¨³£ÓÃÓÚ½«±ä»»¾ØÕó´«µİµ½¶¥µã×ÅÉ«Æ÷»òÕßÔÚÆ¬¶Î×ÅÉ«Æ÷³å´´½¨ÎÆÀí²ÉÑùÆ÷¡£
+
+	ÕâĞ©uniformÊıÖµĞèÒªÔÚ¹ÜÏß´´½¨¹ı³ÌÖĞ£¬Í¨¹ıVkPipelineLayout¶ÔÏóÖ¸¶¨¡£¼´Ê¹ÔÚºóĞøÄÚÈİÖĞÓÃµ½£¬ÎÒÃÇÒ²ÈÔÈ»ĞèÒª´´½¨Ò»¸ö¿ÕµÄpipeline layout¡£
+	´´½¨Àà³ÉÔ±±äÁ¿³ÖÓĞ¸Ã¶ÔÏó£¬ÒòÎªÎÒÃÇÔÚºóĞøÕÂ½ÚÖĞµÄº¯ÊıÖĞÒıÓÃËü :
+	*/
+	VkPipelineLayoutCreateInfo pipelineLayoutInfo = {};
+	pipelineLayoutInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_LAYOUT_CREATE_INFO;
+	pipelineLayoutInfo.setLayoutCount = 1;
+	pipelineLayoutInfo.pSetLayouts = &descriptorSetLayout;
+
+	if (vkCreatePipelineLayout(device, &pipelineLayoutInfo, nullptr, &pipelineLayout) != VK_SUCCESS) {
+		throw std::runtime_error("failed to create pipeline layout!");
+	}
+
+	VkGraphicsPipelineCreateInfo pipelineInfo = {};
+	pipelineInfo.sType = VK_STRUCTURE_TYPE_GRAPHICS_PIPELINE_CREATE_INFO;
+	pipelineInfo.stageCount = 2;
+	pipelineInfo.pStages = shaderStages;
+	pipelineInfo.pVertexInputState = &vertexInputInfo;
+	pipelineInfo.pInputAssemblyState = &inputAssembly;
+	pipelineInfo.pViewportState = &viewportState;
+	pipelineInfo.pRasterizationState = &rasterizer;
+	pipelineInfo.pMultisampleState = &multisampling;
+	pipelineInfo.pDepthStencilState = &depthStencil;
+	pipelineInfo.pColorBlendState = &colorBlending;
+	pipelineInfo.layout = pipelineLayout;
+	pipelineInfo.renderPass = renderPass;
+	pipelineInfo.subpass = 0;
+	pipelineInfo.basePipelineHandle = VK_NULL_HANDLE;
+
+	if (vkCreateGraphicsPipelines(device, VK_NULL_HANDLE, 1, &pipelineInfo, nullptr, &graphicsPipeline) != VK_SUCCESS) {
+		throw std::runtime_error("failed to create graphics pipeline!");
+	}
+
+	//ÔÚÍ¼ĞÎ¹ÜÏß´´½¨Íê³ÉÇÒcreateGraphicsPipelineº¯Êı·µ»ØµÄÊ±ºò£¬ËüÃÇÓ¦¸Ã±»ÇåÀíµô£¬ËùÒÔÔÚ¸Ãº¯ÊıºóÉ¾³ıËüÃÇ:
+	vkDestroyShaderModule(device, fragShaderModule, nullptr);
+	vkDestroyShaderModule(device, vertShaderModule, nullptr);
+}

@@ -33,28 +33,21 @@ void HelloTriangleApplication::initVulkan() {
 	createSwapChain();
 
 	createImageViews();
+
+	createGraphicsPipeline();
 }
 	
 
 void HelloTriangleApplication::cleanup() {
-
-	vkDestroySwapchainKHR(device, swapChain, nullptr);
-
+	//cleanupSwapChain();
+	vkDestroyDescriptorSetLayout(device, descriptorSetLayout, nullptr);
 	vkDestroyDevice(device, nullptr);
-
 	if (enableValidationLayers) {
 		DestroyDebugReportCallbackEXT(instance, callback, nullptr);
 	}
-	
 	vkDestroySurfaceKHR(instance, surface, nullptr);
-
-	
-	glfwDestroyWindow(window);
-
-
 	vkDestroyInstance(instance, nullptr);
-
-
+	glfwDestroyWindow(window);
 	glfwTerminate();
 }
 

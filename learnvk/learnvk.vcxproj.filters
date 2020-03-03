@@ -11,6 +11,9 @@
     <Filter Include="src\vk">
       <UniqueIdentifier>{9073664a-87f5-4240-842c-306a60614861}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\vk\shaders">
+      <UniqueIdentifier>{1a35a278-4a5d-45b6-9c2e-1bc211a69640}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\vk\vk_00_main.cpp">
@@ -40,6 +43,9 @@
     <ClCompile Include="src\vk\vk_08_imageview.cpp">
       <Filter>src\vk</Filter>
     </ClCompile>
+    <ClCompile Include="src\vk\vk_09_shader.cpp">
+      <Filter>src\vk</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\vk\vk_00_main.h">
@@ -48,10 +54,27 @@
     <ClInclude Include="src\vk\vk_00_define.h">
       <Filter>src\vk</Filter>
     </ClInclude>
+    <ClInclude Include="resource.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="src\vk\vk_07_img.png">
       <Filter>src\vk</Filter>
     </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="src\vk\shaders\shader.vert">
+      <Filter>src\vk\shaders</Filter>
+    </None>
+    <None Include="src\vk\shaders\shader.frag">
+      <Filter>src\vk\shaders</Filter>
+    </None>
+    <None Include="frag1.bin">
+      <Filter>资源文件</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="learnvk.rc">
+      <Filter>资源文件</Filter>
+    </ResourceCompile>
   </ItemGroup>
 </Project>

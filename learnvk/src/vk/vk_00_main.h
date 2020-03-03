@@ -9,6 +9,7 @@
 #include <cstdlib>
 #include "iostream"
 #include "vector"
+#include "fstream"
 
 VkResult CreateDebugReportCallbackEXT(VkInstance instance, const VkDebugReportCallbackCreateInfoEXT* pCreateInfo, const VkAllocationCallbacks* pAllocator, VkDebugReportCallbackEXT* pCallback);
 void DestroyDebugReportCallbackEXT(VkInstance instance, VkDebugReportCallbackEXT callback, const VkAllocationCallbacks* pAllocator);
@@ -30,6 +31,23 @@ private:
 	void initVulkan();
 	void mainLoop();
 	void cleanup();
+
+	static std::vector<char> readFile(const std::string& filename) {
+		std::ifstream file(filename, std::ios::ate | std::ios::binary);
+
+		if (!file.is_open()) {
+			throw std::runtime_error("failed to open file!");
+		}
+		size_t fileSize = (size_t)file.tellg();
+		std::vector<char> buffer(fileSize);
+
+		file.seekg(0);
+		file.read(buffer.data(), fileSize);
+
+		file.close();
+
+		return buffer;
+	}
 
 private:
 	// 我们选择的图形显卡存储在类成员VkPhysicalDevice句柄中。
@@ -92,6 +110,16 @@ private:
 	std::vector<VkImageView> swapChainImageViews;
 	void createImageViews();
 	VkImageView createImageView(VkImage image, VkFormat format, VkImageAspectFlags aspectFlags);
+
+private:
+	VkRenderPass renderPass;
+	VkDescriptorSetLayout descriptorSetLayout;
+	VkPipelineLayout pipelineLayout;
+	VkPipeline graphicsPipeline;
+
+	void createGraphicsPipeline();
+private:
+	VkShaderModule createShaderModule(const std::vector<char>& code);
 	
 };
 

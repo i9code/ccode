@@ -32,13 +32,23 @@
     <ClCompile Include="src\vk\vk_06_swap_chain.cpp" />
     <ClCompile Include="src\vk\vk_07_graphics_pipeline.cpp" />
     <ClCompile Include="src\vk\vk_08_imageview.cpp" />
+    <ClCompile Include="src\vk\vk_09_shader.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="resource.h" />
     <ClInclude Include="src\vk\vk_00_define.h" />
     <ClInclude Include="src\vk\vk_00_main.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="src\vk\vk_07_img.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="frag1.bin" />
+    <None Include="src\vk\shaders\shader.frag" />
+    <None Include="src\vk\shaders\shader.vert" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="learnvk.rc" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
