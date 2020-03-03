@@ -18,7 +18,7 @@ int main() {
 void HelloTriangleApplication::initVulkan() {
 	createInstance();
 
-	setupDebugMessenger();
+	setupDebugCallback();
 	
 	createSurface();
 
@@ -31,6 +31,8 @@ void HelloTriangleApplication::initVulkan() {
 	createLogicalDevice();
 
 	createSwapChain();
+
+	createImageViews();
 }
 	
 
@@ -41,7 +43,7 @@ void HelloTriangleApplication::cleanup() {
 	vkDestroyDevice(device, nullptr);
 
 	if (enableValidationLayers) {
-		DestroyDebugUtilsMessengerEXT(instance, debugMessenger, nullptr);
+		DestroyDebugReportCallbackEXT(instance, callback, nullptr);
 	}
 	
 	vkDestroySurfaceKHR(instance, surface, nullptr);

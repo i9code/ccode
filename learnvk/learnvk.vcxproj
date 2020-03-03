@@ -30,9 +30,15 @@
     <ClCompile Include="src\vk\vk_04_logical_device.cpp" />
     <ClCompile Include="src\vk\vk_05_surface.cpp" />
     <ClCompile Include="src\vk\vk_06_swap_chain.cpp" />
+    <ClCompile Include="src\vk\vk_07_graphics_pipeline.cpp" />
+    <ClCompile Include="src\vk\vk_08_imageview.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\vk\vk_00_define.h" />
     <ClInclude Include="src\vk\vk_00_main.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="src\vk\vk_07_img.png" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

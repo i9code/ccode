@@ -40,20 +40,13 @@ void HelloTriangleApplication::createInstance() {
 	createInfo.enabledExtensionCount = static_cast<uint32_t>(extensions.size());
 	createInfo.ppEnabledExtensionNames = extensions.data();
 
-	// 结构体的最后两个成员确定需要开启的全局的validation layers
-	VkDebugUtilsMessengerCreateInfoEXT debugCreateInfo;
 	// 修改VkInstanceCreateInfo结构体，填充当前上下文已经开启的validation layers名称集合
 	if (enableValidationLayers) {
 		createInfo.enabledLayerCount = static_cast<uint32_t>(validationLayers.size());
 		createInfo.ppEnabledLayerNames = validationLayers.data();
-
-		populateDebugMessengerCreateInfo(debugCreateInfo);
-		createInfo.pNext = (VkDebugUtilsMessengerCreateInfoEXT*)&debugCreateInfo;
 	}
 	else {
 		createInfo.enabledLayerCount = 0;
-
-		createInfo.pNext = nullptr;
 	}
 
 	// 已经指定了Vulkan创建一个实例需要的一切信息，调用vkCreateInstance创建属于我们的第一个instance:

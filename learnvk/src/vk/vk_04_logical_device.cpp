@@ -1,25 +1,30 @@
 // logical_device.cpp
 #include "vk_00_main.h"
+#include "set"
+
+
 
 
 void HelloTriangleApplication::createLogicalDevice() {
     /*
-    创建逻辑设备需要在结构体中明确具体的信息，
-    首先第一个结构体VkDeviceQueueCreateInfo。
-    这个结构体描述队列簇中预要申请使用的队列数量。
-    现在我们仅关心具备图形能力的队列。
+    创建逻辑设备需要在结构体中明确具体的信息，首先第一个结构体VkDeviceQueueCreateInfo。
+    这个结构体描述队列簇中预要申请使用的队列数量。现在我们仅关心具备图形能力的队列。
     */
     QueueFamilyIndices indices = findQueueFamilies(physicalDevice);
 
-    VkDeviceQueueCreateInfo queueCreateInfo = {};
-    queueCreateInfo.sType = VK_STRUCTURE_TYPE_DEVICE_QUEUE_CREATE_INFO;
-    queueCreateInfo.queueFamilyIndex = indices.graphicsFamily;
-    queueCreateInfo.queueCount = 1;
+	std::vector<VkDeviceQueueCreateInfo> queueCreateInfos;
+	std::set<int> uniqueQueueFamilies = { indices.graphicsFamily, indices.presentFamily };
 
-    // Vulkan允许使用0.0到1.0之间的浮点数分配队列优先级来影响命令缓冲区执行的调用。即使只有一个队列也是必须的:
-    float queuePriority = 1.0f;
-    queueCreateInfo.pQueuePriorities = &queuePriority;
 
+	float queuePriority = 1.0f;
+	for (int queueFamily : uniqueQueueFamilies) {
+		VkDeviceQueueCreateInfo queueCreateInfo = {};
+		queueCreateInfo.sType = VK_STRUCTURE_TYPE_DEVICE_QUEUE_CREATE_INFO;
+		queueCreateInfo.queueFamilyIndex = queueFamily;
+		queueCreateInfo.queueCount = 1;
+		queueCreateInfo.pQueuePriorities = &queuePriority; // // Vulkan允许使用0.0到1.0之间的浮点数分配队列优先级来影响命令缓冲区执行的调用。即使只有一个队列也是必须的:
+		queueCreateInfos.push_back(queueCreateInfo);
+	}
 
     /*
     下一个要明确的信息有关设备要使用的功能特性。
@@ -27,12 +32,14 @@ void HelloTriangleApplication::createLogicalDevice() {
     现在我们不需要任何特殊的功能，所以我们可以简单的定义它并将所有内容保留到VK_FALSE。
     一旦我们要开始用Vulkan做更多的事情，我们会回到这个结构体，进一步设置。*/
     VkPhysicalDeviceFeatures deviceFeatures = {};
+    deviceFeatures.samplerAnisotropy = VK_TRUE;
 
     VkDeviceCreateInfo createInfo = {};
     createInfo.sType = VK_STRUCTURE_TYPE_DEVICE_CREATE_INFO;
 
-    createInfo.pQueueCreateInfos = &queueCreateInfo;
-    createInfo.queueCreateInfoCount = 1;
+    createInfo.queueCreateInfoCount = static_cast<uint32_t>(queueCreateInfos.size());
+    createInfo.pQueueCreateInfos = queueCreateInfos.data();
+ 
 
     createInfo.pEnabledFeatures = &deviceFeatures;
 
@@ -59,5 +66,6 @@ void HelloTriangleApplication::createLogicalDevice() {
        因为我们只是从这个队列簇创建一个队列，所以需要使用索引 0。
        在成功获取逻辑设备和队列句柄后，我们可以通过显卡做一些实际的事情了
     */
-    vkGetDeviceQueue(device, indices.graphicsFamily, 0, &graphicsQueue);
+	vkGetDeviceQueue(device, indices.graphicsFamily, 0, &graphicsQueue);
+	vkGetDeviceQueue(device, indices.presentFamily, 0, &presentQueue);
 }

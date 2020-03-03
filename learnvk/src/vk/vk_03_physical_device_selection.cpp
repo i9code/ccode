@@ -3,6 +3,7 @@
 #include "cstring"
 #include "set"
 
+
 void HelloTriangleApplication::pickPhysicalDevice() {
 	// 获取图形卡列表的方式与获得扩展列表的方式类似
 	uint32_t deviceCount = 0;
@@ -43,8 +44,14 @@ bool HelloTriangleApplication::isDeviceSuitable(VkPhysicalDevice device) {
 		swapChainAdequate = !swapChainSupport.formats.empty() && !swapChainSupport.presentModes.empty();
 	}
 
+
+	VkPhysicalDeviceFeatures supportedFeatures;
+	vkGetPhysicalDeviceFeatures(device, &supportedFeatures);
+
 	return indices.isComplete() && extensionsSupported && swapChainAdequate;
 }
+
+
 
 QueueFamilyIndices HelloTriangleApplication::findQueueFamilies(VkPhysicalDevice device) {
 	QueueFamilyIndices indices;
@@ -61,6 +68,9 @@ QueueFamilyIndices HelloTriangleApplication::findQueueFamilies(VkPhysicalDevice 
 	// 我们至少需要找到一个支持VK_QUEUE_GRAPHICS_BIT的队列簇。
 	int i = 0;
 	for (const auto& queueFamily : queueFamilies) {
+		if (queueFamily.queueCount > 0 && queueFamily.queueFlags & VK_QUEUE_GRAPHICS_BIT) {
+			indices.graphicsFamily = i;
+		}
 		VkBool32 presentSupport = false;
 		vkGetPhysicalDeviceSurfaceSupportKHR(device, i, surface, &presentSupport);
 		if (queueFamily.queueCount > 0 && presentSupport) {

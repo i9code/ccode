@@ -73,8 +73,9 @@ void HelloTriangleApplication::createSwapChain() {
         presentMode指向自己。如果clipped成员设置为VK_TRUE，意味着我们不关心被遮蔽的像素数据，
         比如由于其他的窗体置于前方时或者渲染的部分内容存在于可是区域之外，除非真的需要读取这些像素获数据进行处理，否则可以开启裁剪获得最佳性能。
     */
-    createInfo.presentMode = presentMode;
-    createInfo.clipped = VK_TRUE;
+	createInfo.presentMode = presentMode;
+	createInfo.clipped = VK_TRUE;
+
     //最后一个字段oldSwapChain。Vulkan运行时，交换链可能在某些条件下被替换，比如窗口调整大小或者交换链需要重新分配更大的图像队列。
     //在这种情况下，交换链实际上需要重新分配创建，并且必须在此字段中指定对旧的引用，用以回收资源。
     //这是一个比较复杂的话题，我们会在后面的章节中详细介绍。现在假设我们只会创建一个交换链。
@@ -91,8 +92,10 @@ void HelloTriangleApplication::createSwapChain() {
     swapChainImages.resize(imageCount);
     vkGetSwapchainImagesKHR(device, swapChain, &imageCount, swapChainImages.data());
 
-}
+	swapChainImageFormat = surfaceFormat.format;
+	swapChainExtent = extent;
 
+}
 
 //现在创建新的函数querySwapChainSupport填充该结构体
 SwapChainSupportDetails HelloTriangleApplication::querySwapChainSupport(VkPhysicalDevice device) {
@@ -115,7 +118,6 @@ SwapChainSupportDetails HelloTriangleApplication::querySwapChainSupport(VkPhysic
 	}
 	return details;
 }
-
 
 // 为交换链选择正确的设置
 /*
@@ -191,15 +193,21 @@ VkPresentModeKHR HelloTriangleApplication::chooseSwapPresentMode(const std::vect
 在这种情况下，我们参考窗体minImageExtent和maxImageExtent选择最匹配的分辨率。
 */
 VkExtent2D HelloTriangleApplication::chooseSwapExtent(const VkSurfaceCapabilitiesKHR& capabilities) {
-    if (capabilities.currentExtent.width != std::numeric_limits<uint32_t>::max()) {
-        return capabilities.currentExtent;
-    }
-    else {
-        VkExtent2D actualExtent = { WIDTH, HEIGHT };
+	if (capabilities.currentExtent.width != std::numeric_limits<uint32_t>::max()) {
+		return capabilities.currentExtent;
+	}
+	else {
+		int width, height;
+		glfwGetWindowSize(window, &width, &height);
 
-        actualExtent.width = std::max(capabilities.minImageExtent.width, std::min(capabilities.maxImageExtent.width, actualExtent.width));
-        actualExtent.height = std::max(capabilities.minImageExtent.height, std::min(capabilities.maxImageExtent.height, actualExtent.height));
+		VkExtent2D actualExtent = {
+			static_cast<uint32_t>(width),
+			static_cast<uint32_t>(height)
+		};
 
-        return actualExtent;
-    }
+		actualExtent.width = std::max(capabilities.minImageExtent.width, std::min(capabilities.maxImageExtent.width, actualExtent.width));
+		actualExtent.height = std::max(capabilities.minImageExtent.height, std::min(capabilities.maxImageExtent.height, actualExtent.height));
+
+		return actualExtent;
+	}
 }

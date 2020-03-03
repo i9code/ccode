@@ -34,10 +34,24 @@
     <ClCompile Include="src\vk\vk_06_swap_chain.cpp">
       <Filter>src\vk</Filter>
     </ClCompile>
+    <ClCompile Include="src\vk\vk_07_graphics_pipeline.cpp">
+      <Filter>src\vk</Filter>
+    </ClCompile>
+    <ClCompile Include="src\vk\vk_08_imageview.cpp">
+      <Filter>src\vk</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\vk\vk_00_main.h">
       <Filter>src\vk</Filter>
     </ClInclude>
+    <ClInclude Include="src\vk\vk_00_define.h">
+      <Filter>src\vk</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="src\vk\vk_07_img.png">
+      <Filter>src\vk</Filter>
+    </Image>
   </ItemGroup>
 </Project>
