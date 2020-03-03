@@ -19,25 +19,20 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\vk\tutorial\vk_tu_01_first.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-    </ClCompile>
-    <ClCompile Include="src\vk\vk_01_helloword.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-    </ClCompile>
-    <ClCompile Include="src\vk\vk_02_create_vulkan_instance.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    <ClCompile Include="src\vk\vk_00_main.cpp" />
+    <ClCompile Include="src\vk\vk_01_create_vulkan_instance.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="src\vk\vk_03_physical_device_selection.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="src\vk\vk_04_validation_layers.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-    </ClCompile>
-    <ClCompile Include="src\vk\vk_05_logical_device.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-    </ClCompile>
-    <ClCompile Include="src\vk\vk_06_swapchain_surface.cpp" />
+    <ClCompile Include="src\vk\vk_02_validation_layers.cpp" />
+    <ClCompile Include="src\vk\vk_04_logical_device.cpp" />
+    <ClCompile Include="src\vk\vk_05_surface.cpp" />
+    <ClCompile Include="src\vk\vk_06_swap_chain.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\vk\vk_00_main.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

@@ -11,31 +11,33 @@
     <Filter Include="src\vk">
       <UniqueIdentifier>{9073664a-87f5-4240-842c-306a60614861}</UniqueIdentifier>
     </Filter>
-    <Filter Include="src\vk\tutorial">
-      <UniqueIdentifier>{56c16cef-1a8b-48ce-80c9-a8f047cd6151}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\vk\vk_01_helloword.cpp">
+    <ClCompile Include="src\vk\vk_00_main.cpp">
       <Filter>src\vk</Filter>
     </ClCompile>
-    <ClCompile Include="src\vk\vk_02_create_vulkan_instance.cpp">
+    <ClCompile Include="src\vk\vk_01_create_vulkan_instance.cpp">
       <Filter>src\vk</Filter>
-    </ClCompile>
-    <ClCompile Include="src\vk\tutorial\vk_tu_01_first.cpp">
-      <Filter>src\vk\tutorial</Filter>
     </ClCompile>
     <ClCompile Include="src\vk\vk_03_physical_device_selection.cpp">
       <Filter>src\vk</Filter>
     </ClCompile>
-    <ClCompile Include="src\vk\vk_04_validation_layers.cpp">
+    <ClCompile Include="src\vk\vk_02_validation_layers.cpp">
       <Filter>src\vk</Filter>
     </ClCompile>
-    <ClCompile Include="src\vk\vk_05_logical_device.cpp">
+    <ClCompile Include="src\vk\vk_04_logical_device.cpp">
       <Filter>src\vk</Filter>
     </ClCompile>
-    <ClCompile Include="src\vk\vk_06_swapchain_surface.cpp">
+    <ClCompile Include="src\vk\vk_05_surface.cpp">
       <Filter>src\vk</Filter>
     </ClCompile>
+    <ClCompile Include="src\vk\vk_06_swap_chain.cpp">
+      <Filter>src\vk</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\vk\vk_00_main.h">
+      <Filter>src\vk</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
