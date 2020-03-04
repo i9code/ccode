@@ -89,11 +89,14 @@ private:
 	VkSwapchainKHR swapChain;
 	//交换链创建后，需要获取VkImage相关的句柄。它会在后续渲染的章节中引用。添加类成员变量存储该句柄:
 	std::vector<VkImage> swapChainImages;
-
 	VkFormat swapChainImageFormat;
 	VkExtent2D swapChainExtent;
+	std::vector<VkImageView> swapChainImageViews;
+	std::vector<VkFramebuffer> swapChainFramebuffers;
+	
 
 	void createSwapChain();
+	void createFramebuffers();
 
 	//现在创建新的函数querySwapChainSupport填充该结构体
 	SwapChainSupportDetails querySwapChainSupport(VkPhysicalDevice device);
@@ -104,10 +107,10 @@ private:
 
 	VkExtent2D chooseSwapExtent(const VkSurfaceCapabilitiesKHR& capabilities);
 	
+	void cleanupSwapChain();
 
 private:
 	// vkimage
-	std::vector<VkImageView> swapChainImageViews;
 	void createImageViews();
 	VkImageView createImageView(VkImage image, VkFormat format, VkImageAspectFlags aspectFlags);
 
@@ -116,10 +119,19 @@ private:
 	VkDescriptorSetLayout descriptorSetLayout;
 	VkPipelineLayout pipelineLayout;
 	VkPipeline graphicsPipeline;
-
+	void createRenderPass();
 	void createGraphicsPipeline();
+	void createDescriptorSetLayout();
+	VkFormat findDepthFormat();
+	VkFormat findSupportedFormat(const std::vector<VkFormat>& candidates, VkImageTiling tiling, VkFormatFeatureFlags features);
+
 private:
 	VkShaderModule createShaderModule(const std::vector<char>& code);
+private:
+	VkCommandPool commandPool;
+	std::vector<VkCommandBuffer> commandBuffers;
+	void createCommandPool();
+	void createCommandBuffers();
 	
 };
 

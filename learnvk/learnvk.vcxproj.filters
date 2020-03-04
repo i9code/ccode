@@ -46,6 +46,15 @@
     <ClCompile Include="src\vk\vk_09_shader.cpp">
       <Filter>src\vk</Filter>
     </ClCompile>
+    <ClCompile Include="src\vk\vk_07_render_pass.cpp">
+      <Filter>src\vk</Filter>
+    </ClCompile>
+    <ClCompile Include="src\vk\vk_07_descriptor_set_layout.cpp">
+      <Filter>src\vk</Filter>
+    </ClCompile>
+    <ClCompile Include="src\vk\vk_10_framebuffers.cpp">
+      <Filter>src\vk</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\vk\vk_00_main.h">

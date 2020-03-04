@@ -30,9 +30,12 @@
     <ClCompile Include="src\vk\vk_04_logical_device.cpp" />
     <ClCompile Include="src\vk\vk_05_surface.cpp" />
     <ClCompile Include="src\vk\vk_06_swap_chain.cpp" />
+    <ClCompile Include="src\vk\vk_07_descriptor_set_layout.cpp" />
     <ClCompile Include="src\vk\vk_07_graphics_pipeline.cpp" />
+    <ClCompile Include="src\vk\vk_07_render_pass.cpp" />
     <ClCompile Include="src\vk\vk_08_imageview.cpp" />
     <ClCompile Include="src\vk\vk_09_shader.cpp" />
+    <ClCompile Include="src\vk\vk_10_framebuffers.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="resource.h" />
